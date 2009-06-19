@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}main{% endblock %}
+
+{% block feed %}
+<ul class="menu">
+ <li class="menuheader">Feed</li>
+ <li><a href='/feed'>feed score</a></li>
+ <li><a href='/feed?info=all'>feed detail</a></li>
+</ul>
+{% endblock %}
+
+{% block addscorebox %}
+<ul class="menu">
+ <li class="menuheader">Score</li>
+ <li><a href="/?op=edit&amp;key=new">Add score</a></li>
+</ul>
+{% endblock %}
+
+{% block searchbox %}
+<div class="menubar">
+<form id="form" action="/" method="get">
+<ul class="searchbox menu">
+<li class="menuheader">Search</li>
+<li>Title:
+ <input type="text" name="title" size="20"
+  value="{{ title }}" maxlength="100" tabindex="1"></input></li>
+<li>Summary(ดรม):
+ <input type="text" name="summary" size="10"
+  value="{{summary}}" maxlength="30" tabindex="2"></input></li>
+<li>in category:
+ <input type="text" name="cat" size="10"
+  value="{{cat}}" maxlength="30" tabindex="3"></input></li>
+<li>Limit:
+ <input type="text" name="limit" size="3"
+  value="{{limit}}" maxlength="3" tabindex="4"></input></li>
+<li>order:
+ <select name="order" tabindex="5">
+  <option{% ifequal order "title" %} selected="selected"{% endifequal %}
+  	value="title">title</option>
+  <option{% ifequal order "-title" %} selected="selected"{% endifequal %}
+  	value="-title">-title</option>
+  <option{% ifequal order "-lastmodified" %} selected="selected"{% endifequal %}
+  	value="-lastmodified">-lastmodified</option>
+  <option{% ifequal order "lastmodified" %} selected="selected"{% endifequal %}
+  	value="lastmodified">lastmodified</option>
+ </select></li>
+<li>
+ <input type="hidden" name="dump" value="{{dump}}" />
+ <button type="submit" tabindex="4"
+  onclick="form.target='_top'">search</button></li>
+</ul> {# ul searchbox #}
+</form>
+</div>{# menubar #}
+{% endblock %} {# searchbox #}
+
+{% block content %}
+<div class="content">
+<div class="pagenavi">{{ pagenavi }}</div>
+
+<ul class="scorelist">
+{% spaceless %}
+{% for score in scores %}
+<li{% if score.deleted %} class="deleted"{% endif %}>
+<span class="num">{{score.num}}</span>
+<a href="/?op=view&amp;key={{ score.key }}"
+title="{{ score.title|escape }}
+(creater: {{ score.creater }} {{ score.created|date:"y-m-d H:i:s" }},
+modifier: {{ score.lastmodifier }} {{ score.lastmodified|date:"y-m-d H:i:s" }})
+">
+{% if score.display_title %}
+ {{ score.display_title }}
+{% else %}
+ {{ score.title|escape }}
+{% endif %}
+</a><br />
+<span class="datetime">
+{{ score.lastmodified|date:"y-m-d H:i:s" }}
+v:{{ score.version }}
+[{{ score.categories|join:","|escape }}]
+</span>
+<span class="operation">
+<!-- id:{{ score.id }} -->
+{% if logined %}
+{% if score.editable %}
+| <a href="/?op=edit&amp;key={{score.key}}">edit</a>
+{% endif %}
+{% if score.deleteable %}
+| <a href="/?op=delete&amp;key={{score.key}}&amp;{{pageargs}}">delete</a>
+{% endif %}
+{% if score.undeleteable %}
+| <a href="/?op=undelete&amp;key={{score.key}}&amp;{{pageargs}}">undelete</a>
+{% endif %}
+{% if score.purgeable %}
+| <a href="/?op=purge&amp;key={{score.key}}&amp;{{pageargs}}">purge</a>
+{% endif %}
+{% endif %}
+| <a href="/?op=rawfile&amp;key={{score.key}}">source</a>
+| <a href="/?op=changes&amp;key={{score.key}}">changes</a>
+{% if logined %}
+| <a href="/?op=check&amp;key={{score.key}}">check</a>
+{% endif %}
+</span>
+{% if score.display_summary %}
+<br />{{ score.display_summary }}
+{% endif %}
+</li>
+{% endfor %}
+{% endspaceless %}
+</ul>
+
+{% if scores %}<div class="pagenavi">{{ pagenavi }}</div>{% endif %}
+</div>{# content #}
+{% endblock %} {# content #}

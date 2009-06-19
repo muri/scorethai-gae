@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}edit: {{ key }}{% endblock %}
+{% block content %}
+<div class="content">
+<form id="editform" action="/" method="post">
+<div>
+ <textarea name="content" rows="20" cols="80" tabindex="1">{{ content }}</textarea>
+ <input type="hidden" name="key" value="{{ key }}" />
+ {% if dump %}<input type="hidden" name="dump" value="{{ dump }}" />{% endif %}
+</div>
+<div>
+ <input type="submit" name="preview" value="preview" tabindex="2"
+    onclick="document.forms['editform'].target='preview';" />
+ {% if logined %}
+ | <input type="submit" name="save" value="save" tabindex="3"
+    onclick="document.forms['editform'].target='_top'" />
+ {% if deleteable %}
+ | <input type="submit" name="delete" value="delete" tabindex="4"
+    onclick="document.forms['editform'].target='_top'" />
+ {% endif %}
+ {% if undeleteable %}
+ | <input type="submit" name="undelete" value="undelete" tabindex="4"
+    onclick="document.forms['editform'].target='_top'" />
+ {% endif %}
+ {% endif %}
+</div>
+</form>
+<div><p><a href="/">Stop editting and back to main.</a></p></div>
+</div>{# content #}
+{% endblock %}{# content #}

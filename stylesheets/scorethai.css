@@ -1,0 +1,174 @@
+
+h1.title {
+text-align: center;
+font-size: 1.4em;
+margin-top: 1em;
+}
+
+@media print {
+/* @page { margin: 3cm; windows: 5; orphans: 5; }*/
+div.contents { page-break-after: always; }
+h1,h2,h3,h4,h5,h6 { page-break-after: avoid; }
+table { page-break-inside: avoid; }
+div.section { page-break-inside: avoid; }
+.pagebreak { page-break-before: always; }
+a.reference:link, a.reference:visited { text-decoration: none; }
+.songlist li { font-size: 1.2em !important; }
+/* a:after { content:" ["attr(href)"]"; } */
+}
+
+a.reference:link { color: #000; }
+a.reference:visited { color: #222; }
+
+/* score table */
+table.scorethai {
+table-layout: fixed;
+border-collapse: collapse;
+border: 0px transparent none;
+margin: 0 0 0 1em;
+padding: 0px;
+empty-cells: hide;
+}
+/* cells */
+table.scorethai th,
+table.scorethai td
+{
+text-align: center;
+vertical-align: baseline;
+white-space: nowrap;
+}
+/* text line */
+table.scorethai td.text
+{
+text-align: left;
+padding-left: 1em;
+}
+
+/* symbol mark */
+td span.mark
+{
+vertical-align: super;
+font-size: xx-small;
+}
+
+/* flags: single-note, emphasis, underline */
+span.s { font-size: small; }
+span.e { font-weight: bold; }
+span.u { text-decoration: underline; }
+.error { color: red; }
+
+/* flags: triple */
+span.T { text-decoration: underline;}
+span.T:after
+{
+vertical-align: sub;
+font-size: xx-small;
+content: "3";
+}
+
+/*
+ * simple score for ponglang
+ */
+table.ponglang {
+margin: 1em auto;
+width: 700px;
+padding: 0.2em;
+border: 2px black solid;
+border-collapse: collapse;
+font-family: "Tahoma", sans-serif;
+font-size: 13pt;
+}
+table.ponglang col {
+width: 86px;
+}
+table.ponglang th {
+border-bottom: 2px black solid;
+}
+table.ponglang td {
+padding: 0.2em 0em;
+border: thin #ccc solid;
+word-spacing: 1pt;
+}
+table.ponglang td.text {
+border-top: 1px black solid;
+border-bottom: 1px black solid;
+word-spacing: normal;
+}
+
+/* lyric: lyric block.
+   lyricrhythm: lyric in rhythm table.
+ */
+div.lyric,
+table.lyricrhythm
+{
+font-family: "TH Niramit AS",serif;
+font-size: 16pt;
+}
+div.lyric
+{
+margin-left: 2em;
+}
+table.lyricrhythm
+{
+margin-left: 1em;
+}
+table.lyricrhythm {
+border-collapse: separate;
+border-spacing: 1px;
+border: 0px transparent none;
+width: 720px;
+}
+table.lyricrhythm col {
+width: 86px;
+}
+table.lyricrhythm th {
+border-width: 0px 0px 1px;
+border-color: black;
+border-style: solid;
+font-size: larger;
+}
+table.lyricrhythm td {
+border: 1px #444 solid;
+}
+table.lyricrhythm td.text {
+border: 0px transparent none !important;
+}
+
+/*
+ * khaendiao: normal, 8columns
+ * khaendiao2-12: 2stroke, 12columns
+ */
+table.khaendiao,
+table.khaendiao2-12 {
+margin: 1em auto;
+width: 740px;
+border: 1px black solid;
+border-collapse: separate;
+font-family: "Tahoma", sans-serif;
+font-size: 13pt;
+}
+table.khaendiao th,
+table.khaendiao2-12 th {
+padding: 0.2em;
+font-weight: bold;
+border-width: medium 0;
+border-color: black;
+border-style: solid;
+}
+table.khaendiao td {
+padding: 0.2em 0em;
+border-style: none !important;
+word-spacing: -0.3pt;
+letter-spacing: -0.1pt;
+}
+table.khaendiao2-12 td {
+border-style: none !important;
+word-spacing: 1pt;
+}
+table.khaendiao td.text,
+table.khaendiao2-12 td.text {
+border-style: solid !important;
+border-width: 1px 0;
+word-spacing: normal;
+letter-spacing: normal;
+}

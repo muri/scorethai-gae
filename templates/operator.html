@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}operator{% endblock %}
+{% block content %}
+<div class="content">
+<h2>operator</h2>
+<h3>user info</h3>
+{{ userinfos|length }} userinfo.
+<ul class="datalist">
+{% spaceless %}
+{% for userinfo in userinfos %}
+<li>
+user: {{ userinfo.user }}
+lastlogin: {{ userinfo.lastlogin|date:"y-m-d H:i:s" }}<br />
+isoperator:
+ <a href="_o?ukey={{ userinfo.key }}&amp;toggle=isoperator">{{ userinfo.isoperator }}</a>
+| can_addnew:
+ <a href="_o?ukey={{ userinfo.key }}&amp;toggle=can_addnew">{{ userinfo.can_addnew }}</a>
+| can_modify_other:
+ <a href="_o?ukey={{ userinfo.key }}&amp;toggle=can_modify_other">{{ userinfo.can_modify_other }}</a>
+| can_delete_other:
+ <a href="_o?ukey={{ userinfo.key }}&amp;toggle=can_delete_other">{{ userinfo.can_delete_other }}</a>
+</li>
+{% endfor %}
+{% endspaceless %}
+</ul>
+
+<h3>operation.</h3>
+<p>
+<a href="_o?list=orphan">List orphan.</a>
+| <a href="_o?op=purgeorphan">Purge orphans.</a>
+</p>
+
+{% if list_header or datas %}
+<h3>{% firstof list_header "data." %}</h3>
+<p>{{ datas|length }} data.</p>
+{% if datas %}
+<ul class="datalist">
+{% for data in datas %}
+<li>dkey:{{ data.key.name }} skey:{{ data.parent.key.name }}<br />
+user:{{ data.user }} date:{{ data.date|date:"y-m-d H:i:s" }} V:{{ data.version }}<br />
+title:{{ data.title|escape }} summary:{{ data.summary }}
+{# <pre>{{ data.content|escape }}</pre> #}
+</li>
+{% endfor %}{# for datas #}
+</ul>
+{% endif %}{# if datas #}
+{% endif %}{# if list_header or datas #}
+</div>{# content #}
+{% endblock %}{# content #}

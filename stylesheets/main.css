@@ -1,0 +1,230 @@
+
+body,h1,h2,h3,p,div,ul,ol,li,dl,dd,dt,table,form,blockquote,pre,address
+{
+ margin: 0px;
+ padding: 0px;
+}
+
+body {
+ font-family: Tahoma;
+ background-color: #EEEEEE;
+ width: 100%; /* avoid scroll bar for IE */
+}
+h2,h3 {
+ margin-top: 0.5em;
+ margin-bottom: 0.5em;
+}
+img {
+ margin: 0px;
+ padding: 0px;
+ border: 0px none;
+}
+.wrapper {
+ background: white;
+ margin: 0.5em;
+ padding: 0.5em;
+ border: 1px solid #999999;
+}
+
+a {
+ color: #0261A6;
+ text-decoration: none;
+}
+a:hover {
+ border-bottom: 1px solid #0261A6;
+}
+a:visited {
+ color: #4C8EBF;
+}
+
+/* HEADER */
+
+.header {
+ border-bottom: 1px solid #999999;
+ margin-bottom: 0.5em;
+}
+
+.header h1 {
+ margin: 0.2em;
+ font-size: 1.3em;
+}
+.header h1 a {
+ text-decoration: none;
+}
+.header .description {
+ margin: 0.2em;
+}
+
+/* MAIN(SIDEBAR+CONTENT)*/
+div.main {
+ width: 100%;
+ clear: both;
+}
+
+/* SIDEBAR (right) */
+/*
+div.sidebar {
+ float: right;
+ width:12.5em;
+ padding: 0.5em 0 0.5em 0em;
+ text-align: left;
+ margin-left: 1em;
+}
+
+ul.menu {
+ border-bottom: 1px black solid;
+ border-left: 1px black solid;
+ margin: 0.5em 0em 1.1em 0em;
+ padding-left: 0.3em;
+ padding-bottom: 0.5em;
+}
+ul.menu li {
+ list-style-position: outside;
+ list-style-type: none;
+ font-size: 0.9em;
+ margin-top: 0.1em;
+ padding-left: 0.5em;
+ white-space: nowrap;
+}
+ul.menu li.menuheader {
+ font-weight: bold;
+ background-color: #eeeeee;
+ margin-bottom: 0.2em;
+}
+ul.menu li a {
+ font-weight: bold;
+}
+ul.searchbox {
+}
+*/
+
+/* MENUBAR (top) */
+
+div.menubar {
+ clear: left;
+ text-align: left;
+ margin: 0.5em auto 0.5em 0.5em;
+}
+
+ul.menu {
+ float: left;
+ font-size: 0.8em;
+ line-height: 1em;
+ border-left: 1px solid #AAAAAA;
+ border-bottom: 1px solid #AAAAAA;
+ margin-right: 1em;
+ margin-bottom: 0.5em;
+ padding-left: 0.3em;
+ padding-bottom: 0.2em;
+}
+ul.menu li {
+ display: inline;
+ list-style-position: inside;
+ list-style-type: none;
+ padding-left: 0.3em;
+ border-left: 1px dotted #888888;
+}
+ul.menu li.menuheader {
+ font-weight: bold;
+ background-color: #eeeeee;
+ border-left: 0px none;
+ padding-left: 0.3em;
+ padding-right: 0.3em;
+}
+ul.menu li a {
+ font-weight: bold;
+}
+ul.searchbox {
+}
+
+/* CONTENT */
+
+div.content {
+ padding: 0.5em;
+ /* test */
+ /* border: 1px dashed #888888; */
+}
+
+div.pagenavi {
+ font-size: small;
+}
+
+ul.scorelist,
+ul.datalist {
+ list-style: none;
+ padding-left: 1em;
+ margin-left: 0em;
+ margin-top: 0.5em;
+ margin-bottom: 0.5em;
+}
+ul.scorelist li,
+ul.datalist li {
+ margin-top: 0.3em;
+ margin-bottom: 0.3em;
+ 
+ margin-left: 0em;
+ padding-left:2em;
+ text-indent:-1em;
+
+ overflow: hidden;
+ /*white-space: nowrap;*/
+ /*
+ text-overflow: ellipsis;
+ -webkit-text-overflow: ellipsis;
+ -o-text-overflow: ellipsis;
+ */
+}
+ul.scorelist li .num,
+ul.datalist li .num {
+}
+ul.scorelist .datetime,
+ul.scorelist .operation {
+ font-size: small;
+ margin-left: 0em;
+}
+ul.scorelist .datetime {
+ /*padding-left: 1.1em;*/
+}
+ul.scorelist .found {
+ font-weight: bold;
+}
+ul.scorelist .deleted { /* for listing deleted score */
+ color: #BBBBBB;
+}
+.rawcont { /* page: changes */
+ font-size: small;
+ padding-left: 1.1em;
+}
+
+/* FOOTER */
+
+div.footer {
+ clear: both;
+ border-top: 1px black solid;
+ margin-top: 1em;
+ padding: 0.2em;
+ font-size: xx-small;
+}
+.icon {
+ display: inline;
+}
+div.footer .icon {
+ margin: 0px;
+ padding: 0px;
+ border: 0px none;
+}
+.bottommark {
+ float: right;
+}
+
+/* SCORE */
+
+div.score {
+ text-align: center; /* center for IE */
+ margin: 1.5em auto;
+}
+
+div.score .desc {
+ text-align: left;
+ margin: 1em;
+}

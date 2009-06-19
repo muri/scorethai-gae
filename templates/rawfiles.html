@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}rawfiles{% endblock %}
+
+{% block content %}
+<div class="content">
+
+<h2>raw files.</h2>
+<ul class="datalist">
+{% for key in keys %}
+ <li><a href="/?op=rawfile&amp;key={{ key }}">{{ key }}</a></li>
+{% endfor %}
+</ul>
+
+{% if last %}
+ <a href="/?op=rawfiles&last={{ last }}">next<a>
+{% endif %}
+
+</div>{# content #}
+{% endblock %}{# content #}

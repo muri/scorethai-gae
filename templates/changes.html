@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}changes: {{ key }}{% endblock %}
+{% block content %}
+<div class="content">
+<h2>Changes</h2>
+<p>Score: {{ key }}</p>
+<p>{{ datas|length }} data.</p>
+
+<ul class="datalist">
+{% for data in datas %}
+ <li>
+  <span class="num">{{ data.version }}:</span>
+  {% if logined %}
+   {% if editable %}
+    <a href="/?op=edit&amp;key={{ key }}&amp;datakey={{ data.key }}">Edit</a>
+   {% endif %}
+  {% endif %}
+  {{ data.key.name }}
+  {{ data.user }}
+  id:{{ data.id }}
+  <span class="datetime">{{ data.date|date:"y-m-d H:i:s" }}</span>
+  <pre class="rawcont">{{ data.content|escape }}</pre>
+ </li>
+{% endfor %}
+</ul>
+</div>{# content #}
+{% endblock %}{# content #}

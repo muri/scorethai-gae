@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}error{% endblock %}
+{% block content %}
+<div class="content">
+<h2>Error on request.</h2>
+<h3>uri</h3>
+<pre>{{ uri }}</pre>
+<h3>headers</h3>
+<pre>{{ headers }}</pre>
+<h3>arguments:</h3>
+<pre>{{ arguments }}</pre>
+</div>{# content #}
+{% endblock %}{# content #}
