@@ -7,7 +7,7 @@ body,h1,h2,h3,p,div,ul,ol,li,dl,dd,dt,table,form,blockquote,pre,address
 
 body {
  font-family: Tahoma;
- background-color: #EEEEEE;
+ /* background-color: #EEEEEE; */
  width: 100%; /* avoid scroll bar for IE */
 }
 h2,h3 {
@@ -23,7 +23,7 @@ img {
  background: white;
  margin: 0.5em;
  padding: 0.5em;
- border: 1px solid #999999;
+ /* border: 1px solid #999999; */
 }
 
 a {
@@ -161,7 +161,7 @@ ul.scorelist li,
 ul.datalist li {
  margin-top: 0.3em;
  margin-bottom: 0.3em;
- 
+
  margin-left: 0em;
  padding-left:2em;
  text-indent:-1em;
