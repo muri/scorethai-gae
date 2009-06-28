@@ -194,17 +194,6 @@ def common_page_error(self, msgs):
     self.response.set_status(500)
     self.response.out.write(template.render(path, values))
 
-# Default content of newly creating score.
-CONTENT_NEW = u"""\
-:title:
-:columns: 8
-:category: ponglang
-:style: ponglang
-:body:
-
-:desc:
-"""
-
 class MainPage(webapp.RequestHandler):
     """Main page handler."""
     temp = common_temp
@@ -281,7 +270,7 @@ class MainPage(webapp.RequestHandler):
             if not userinfo.logined():
                 msgs.append(u'You are currently not login. \
                     Score would not be saved (can preview only).')
-            content = CONTENT_NEW
+            content = scorethai.CONTENT_NEW
             score = None
         else:
             # edit the existing score.
@@ -406,7 +395,7 @@ class MainPage(webapp.RequestHandler):
                 % (self.request.host, key_name)
         Log.add('score',
                 feed_title % (nick, title),
-                description=parser.html_body,
+                description=link,#parser.html_body,
                 author_name=nick,
                 link=link,
                 categories=cats)

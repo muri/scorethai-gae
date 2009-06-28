@@ -68,11 +68,11 @@ indexes:
   - name: date
     direction: desc
 
-# Used 11360 times in query history.
+# Used 11633 times in query history.
 - kind: ScoreData
   ancestor: yes
 
-# Used 207 times in query history.
+# Used 235 times in query history.
 - kind: ScoreData
   ancestor: yes
   properties:

@@ -1,4 +1,11 @@
 
+/* SCORE */
+
+div.score {
+ text-align: left;
+ margin: 1.5em auto;
+}
+
 h1.title {
 text-align: center;
 font-size: 1.4em;
@@ -95,45 +102,6 @@ border-bottom: 1px black solid;
 word-spacing: normal;
 }
 
-/* lyric: lyric block.
-   lyricrhythm: lyric in rhythm table.
- */
-div.lyric,
-table.lyricrhythm
-{
-font-family: "TH Niramit AS",serif;
-font-size: 16pt;
-}
-div.lyric
-{
-margin-left: 2em;
-}
-table.lyricrhythm
-{
-margin-left: 1em;
-}
-table.lyricrhythm {
-border-collapse: separate;
-border-spacing: 1px;
-border: 0px transparent none;
-width: 720px;
-}
-table.lyricrhythm col {
-width: 86px;
-}
-table.lyricrhythm th {
-border-width: 0px 0px 1px;
-border-color: black;
-border-style: solid;
-font-size: larger;
-}
-table.lyricrhythm td {
-border: 1px #444 solid;
-}
-table.lyricrhythm td.text {
-border: 0px transparent none !important;
-}
-
 /*
  * khaendiao: normal, 8columns
  * khaendiao2-12: 2stroke, 12columns
@@ -172,3 +140,58 @@ border-width: 1px 0;
 word-spacing: normal;
 letter-spacing: normal;
 }
+
+/* lyric: lyric block.
+   lyricrhythm: lyric in rhythm table.
+ */
+table.lyricrhythm
+{
+font-family: "TH Niramit AS",serif;
+font-size: 1em;
+}
+table.lyricrhythm
+{
+margin-left: 1em;
+}
+table.lyricrhythm {
+border-collapse: separate;
+border-spacing: 1px;
+border: 0px transparent none;
+width: 720px;
+}
+table.lyricrhythm col {
+width: 86px;
+}
+table.lyricrhythm th {
+border-width: 0px 0px 1px;
+border-color: black;
+border-style: solid;
+font-size: larger;
+}
+table.lyricrhythm td {
+border: 1px #444 solid;
+}
+table.lyricrhythm td.text {
+border: 0px transparent none !important;
+}
+
+div.score div.desc,
+div.score div.lyric
+{
+}
+
+div.score div.desc {
+ font-family: serif;
+ font-size: 1em;
+ margin: 1em;
+}
+div.score div.lyric
+{
+ font-family: "TH Niramit AS",serif;
+ font-size: 1.5em;
+ margin: 1em 2em;
+ line-height: 1.5em;
+ white-space: pre;
+ word-spacing: 1em;
+}
+

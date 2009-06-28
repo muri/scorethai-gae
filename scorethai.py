@@ -7,6 +7,18 @@ import codecs
 
 SUMMARY_LETTERS = u'ดรมฟซลท'
 
+# Default content of newly creating score.
+CONTENT_NEW = u"""\
+:title:
+:columns: 8
+:category: ponglang
+:style: ponglang
+:body:
+
+:desc:
+:lyric:
+"""
+
 def _u(arg):
     """Unicode repr for debug."""
     if isinstance(arg, basestring):
@@ -376,25 +388,21 @@ class Parser():
         self.body_lines = 0  # #of produced lines, to check empty body
 
     def readtext(self, src, linenum=0):
-        if src and src[0] == u'\ufeff':
-            # print 'skip:%r' % src[0] #dbg
-            src = src[1:]
+        #if src and src[0] == u'\ufeff':
+        #    # print 'skip:%r' % src[0] #dbg
+        #    src = src[1:]
         self.linenum = linenum
         label = text = None
         for i in src.splitlines():
             self.linenum += 1
-            s = i.strip()
-            if not s:
-                continue
-
+            # don't strip leading space. use for markdown text.
+            s = i.rstrip()
             # :label: text
             m = re.compile(r'^:([^:\s]+):\s*(.*)$').match(s)
             if m:
                 label, text = m.groups()
             else:
                 text = s
-            if not text:
-                continue
             if label:
                 self.srcs.append(Src(self.linenum, label, text))
             else:
@@ -499,11 +507,19 @@ class Parser():
                 if dump:
                     print u'dump:\n%s' % body.cells.dump()
                     print u'summary: "%s"' % self.summary
+            elif i.label == u'lyric':
+                if i.text:
+                    r += u'<div class="%s">%s</div>' \
+                            %(i.label, cgi.escape(i.text))
             elif i.label == u'desc':
-                r += u'<p class="%s">' % i.label + \
-                     u'<br />'.join(
-                        [cgi.escape(s) for s in i.text.splitlines()]) + \
-                     u'</p>\n'
+                if i.text:
+                    # r += u'text:<div>%s</div>' % repr(i.text) #dbg
+                    import markdown
+                    h = markdown.markdown(
+                        i.text,
+                        output_format='xhtml1',
+                        )#safe_mode="escape")
+                    r += u'<div class="%s">%s</div>' %(i.label, h)
             else:
                 self.messages.append(
                     'Line %d: Unknown label:%s: %s' %\
