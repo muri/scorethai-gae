@@ -141,22 +141,14 @@ class CellList(list):
         textblocks: list of textblock.
         textblock:
             "text" : textblock with no class
-            ("marktext", 'mark') : text marked as class `mark`
-            (textblocks, 'C') : text that has class `C`
+            (textblocks, 'C') : text that has class `C`. -- "text.C"
+            ("marktext", 'mark') : text marked as class `mark`. -- "text^marktext"
+            ("subtext", 'sub') : -- "text_subtext"
             ('C', '{') : begin class `C`
-            ('C', '}') : end class `C`
+            ('C', '}') : end class `C`. -- "C<text>C"
         """
         if not src:
             return []
-
-        # text^Mmm : text has mark Mmm, mark ends with space.
-        m = re.compile(r'\^(\S+)\s?').search(src)
-        if m:
-            mark_text = m.group(1)
-            lst = self._text_to_textblocks(src[:m.start()])
-            lst.append((mark_text, 'mark'))
-            lst.extend(self._text_to_textblocks(src[m.end():]))
-            return lst
 
         # text.C : text has class `C` (1 char)
         m = re.compile(r'(\S+)\.(\w)\b').search(src)
@@ -168,8 +160,26 @@ class CellList(list):
             lst.extend(self._text_to_textblocks(src[m.end():]))
             return lst
 
+        # text^Mmm : text has mark Mmm, mark ends with space.
+        m = re.compile(r'\^(\S+)\s?').search(src)
+        if m:
+            mark_text = m.group(1)
+            lst = self._text_to_textblocks(src[:m.start()])
+            lst.append((mark_text, 'mark'))
+            lst.extend(self._text_to_textblocks(src[m.end():]))
+            return lst
+        
+        # text_Mmm: text has subtext Mmm, ends with space.
+        m = re.compile(r'_(\S+)\s?').search(src)
+        if m:
+            mark_text = m.group(1)
+            lst = self._text_to_textblocks(src[:m.start()])
+            lst.append((mark_text, 'sub'))
+            lst.extend(self._text_to_textblocks(src[m.end():]))
+            return lst
+
         # C<text...>C : texts has class `C`, may across columns and lines
-        m = re.compile(r'(\S)<').search(src)
+        m = re.compile(r'(\w)<').search(src)
         if m:
             c = m.group(1)
             lst = self._text_to_textblocks(src[:m.start()])
@@ -186,7 +196,8 @@ class CellList(list):
             lst.extend(self._text_to_textblocks(src[m.end():]))
             return lst
 
-        m = re.compile(r'>(\S)').search(src)
+		# and closing class by "...>C"
+        m = re.compile(r'>(\w)').search(src)
         if m:
             c = m.group(1)
             lst = self._text_to_textblocks(src[:m.start()])

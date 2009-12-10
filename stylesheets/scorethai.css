@@ -57,11 +57,18 @@ td span.mark
 vertical-align: super;
 font-size: xx-small;
 }
-
+td span.sub
+{
+vertical-align: sub;
+font-size: xx-small;
+}
 /* flags: single-note, emphasis, underline */
 span.s { font-size: small; }
+span.S { font-size: medium; }
 span.e { font-weight: bold; }
+span.E { font-weight: normal; }
 span.u { text-decoration: underline; }
+span.U { text-decoration: none; }
 .error { color: red; }
 
 /* flags: triple */
@@ -113,6 +120,10 @@ width: 740px;
 border: 1px black solid;
 border-collapse: separate;
 font-family: "Tahoma", sans-serif;
+font-size: 13pt;
+}
+table.khaendiao .S,
+table.khaendiao2-12 .S {
 font-size: 13pt;
 }
 table.khaendiao th,

@@ -10,76 +10,64 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 13 times in query history.
 - kind: Log
   properties:
   - name: category
   - name: date
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: Log
   properties:
   - name: date
     direction: desc
 
-# Used once in query history.
 - kind: Log
   properties:
   - name: info
   - name: date
     direction: desc
 
-# Used 8 times in query history.
 - kind: Score
   properties:
   - name: categories
   - name: lastmodified
     direction: desc
 
-# Used 7 times in query history.
 - kind: Score
   properties:
   - name: categories
   - name: title
 
-# Used 2 times in query history.
 - kind: Score
   properties:
   - name: categories
   - name: title
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: Score
   properties:
   - name: lastmodified
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: Score
   properties:
   - name: title
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: ScoreData
   properties:
   - name: date
     direction: desc
 
-# Used 11633 times in query history.
 - kind: ScoreData
   ancestor: yes
 
-# Used 235 times in query history.
 - kind: ScoreData
   ancestor: yes
   properties:
   - name: date
     direction: desc
 
-# Unused in query history -- copied from input.
 - kind: UserInfo
   properties:
   - name: lastlogin
