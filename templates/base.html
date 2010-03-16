@@ -7,7 +7,7 @@
  <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
  <link type="text/css" rel="stylesheet" href="/stylesheets/scorethai.css" />
  <title>scorethai: {% block title %}{% endblock %}</title>
- <link rel="alternate" href="/feed" type="application/atom+xml"
+ <link rel="alternate" href="/feed" type="application/rss+xml"
   title="scorethai score feed" />
  <link rel="schema.DC" href="http://purl.org/dc" />
  <meta name="DC.Title" xml:lang="en" lang="en"
@@ -23,7 +23,10 @@
 {% if showmenu %}
 {# HEADER #}
 <div class="header">
-<h1><a href="/">scorethai</a></h1>
+{% if offer_mobile_link %}
+<a href="{{offer_mobile_link}}">[for mobile, click here]</a>
+{% endif %}
+<h1><a href="{{req_path}}">scorethai</a></h1>
 <div class="description">
 โน้ตเพลงดนตรีไทย-อีสาน / Sheet music of traditional Thai-Isan songs.
 </div>{# description #}
@@ -62,11 +65,10 @@
 {# FOOTER #}
 {% if showmenu %}
 <div class="footer">
-<div class="icon bottommark"><a
+<!-- <div class="icon bottommark"><a
 href="http://validator.w3.org/check?uri={{ uri|escape }}"><img
 src="http://www.w3.org/Icons/valid-xhtml10-blue"
-alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a>
-</div>
+alt="Valid XHTML 1.0 Strict" height="31" width="88" /></a></div> -->
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.1/jp/">
 <img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;"
  src="http://i.creativecommons.org/l/by-nc-sa/2.1/jp/80x15.png" /></a>

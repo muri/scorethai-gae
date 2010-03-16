@@ -12,7 +12,7 @@
   <span class="num">{{ data.version }}:</span>
   {% if logined %}
    {% if editable %}
-    <a href="/?op=edit&amp;key={{ key }}&amp;datakey={{ data.key }}">Edit</a>
+    <a href="{{req_path}}?op=edit&amp;key={{ key }}&amp;datakey={{ data.key }}">Edit</a>
    {% endif %}
   {% endif %}
   {{ data.key.name }}

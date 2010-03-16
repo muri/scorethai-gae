@@ -168,7 +168,7 @@ class CellList(list):
             lst.append((mark_text, 'mark'))
             lst.extend(self._text_to_textblocks(src[m.end():]))
             return lst
-        
+
         # text_Mmm: text has subtext Mmm, ends with space.
         m = re.compile(r'_(\S+)\s?').search(src)
         if m:
@@ -481,9 +481,11 @@ class Parser():
         else:
             return u''
 
-    def parse(self, dump=False):
+    def parse(self, cols_override=0, dump=False):
+        """Use `cols_override` to override columns specified in the score.
+        """
         table_cls = 'ponglang'  # default table style
-        self.columns = 8        # default max-columns
+        self.columns = cols_override or 8 # default max-columns
         self.categories = []    # reset category list
         r = u''
         for i in self.enum_label_text():
@@ -500,11 +502,12 @@ class Parser():
             elif i.label == u'style':
                 table_cls = i.text
             elif i.label == u'columns':
-                if i.text.isdigit():
-                    self.columns = int(i.text)
-                else:
-                    self.messages.append(
-                        'Line %d: columns must be digits: %s' %\
+                if cols_override == 0:
+                    if i.text.isdigit():
+                        self.columns = int(i.text)
+                    else:
+                        self.messages.append(
+                            'Line %d: columns must be digits: %s' %\
                             (i.linenum, i.text))
             elif i.label == u'body':
                 body = Body(maxcol=self.columns)
@@ -567,10 +570,11 @@ def _test():
     Parser()._test(s)
 
 class ContentReader():
-    def __init__(self, content):
+    def __init__(self, content, cols_override=0):
+        """cols_override: override columns specified in the score."""
         self.parser = Parser()
         self.parser.readtext(content)
-        self.parser.parse()
+        self.parser.parse(cols_override=cols_override)
 
     def result(self):
         return (self.parser,

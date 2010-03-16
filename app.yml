@@ -6,7 +6,8 @@ api_version: 1
 handlers:
 - url: /stylesheets
   static_dir: stylesheets
-- url: /(feed|_o)?
+
+- url: /(m/?)?(feed|_o)?
   script: main.py
 
 - url: /admin/.*

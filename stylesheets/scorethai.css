@@ -40,6 +40,7 @@ empty-cells: hide;
 table.scorethai th,
 table.scorethai td
 {
+padding: 0.2em 0.4em;
 text-align: center;
 vertical-align: baseline;
 white-space: nowrap;
@@ -85,7 +86,6 @@ content: "3";
  */
 table.ponglang {
 margin: 1em auto;
-width: 700px;
 padding: 0.2em;
 border: 2px black solid;
 border-collapse: collapse;
@@ -99,7 +99,6 @@ table.ponglang th {
 border-bottom: 2px black solid;
 }
 table.ponglang td {
-padding: 0.2em 0em;
 border: thin #ccc solid;
 word-spacing: 1pt;
 }
@@ -116,7 +115,7 @@ word-spacing: normal;
 table.khaendiao,
 table.khaendiao2-12 {
 margin: 1em auto;
-width: 740px;
+/*width: 740px;*/
 border: 1px black solid;
 border-collapse: separate;
 font-family: "Tahoma", sans-serif;
@@ -128,14 +127,13 @@ font-size: 13pt;
 }
 table.khaendiao th,
 table.khaendiao2-12 th {
-padding: 0.2em;
+padding: 0.2em 0.4em;
 font-weight: bold;
 border-width: medium 0;
 border-color: black;
 border-style: solid;
 }
 table.khaendiao td {
-padding: 0.2em 0em;
 border-style: none !important;
 word-spacing: -0.3pt;
 letter-spacing: -0.1pt;
@@ -168,7 +166,7 @@ table.lyricrhythm {
 border-collapse: separate;
 border-spacing: 1px;
 border: 0px transparent none;
-width: 720px;
+/*width: 720px;*/
 }
 table.lyricrhythm col {
 width: 86px;

@@ -4,21 +4,21 @@
 {% block feed %}
 <ul class="menu">
  <li class="menuheader">Feed</li>
- <li><a href='/feed'>feed score</a></li>
- <li><a href='/feed?info=all'>feed detail</a></li>
+ <li><a href='{{req_path}}/feed'>rss</a></li>
+ <!-- <li><a href='{{req_path}}/feed?info=all'>feed detail</a></li> -->
 </ul>
 {% endblock %}
 
 {% block addscorebox %}
 <ul class="menu">
  <li class="menuheader">Score</li>
- <li><a href="/?op=edit&amp;key=new">Add score</a></li>
+ <li><a href="{{req_path}}?op=edit&amp;key=new">Add score</a></li>
 </ul>
 {% endblock %}
 
 {% block searchbox %}
 <div class="menubar">
-<form id="form" action="/" method="get">
+<form id="form" action="{{req_path}}" method="get">
 <ul class="searchbox menu">
 <li class="menuheader">Search</li>
 <li>Title:
@@ -62,7 +62,7 @@
 {% for score in scores %}
 <li{% if score.deleted %} class="deleted"{% endif %}>
 <span class="num">{{score.num}}</span>
-<a href="/?op=view&amp;key={{ score.key }}"
+<a href="{{req_path}}?op=view&amp;key={{ score.key }}"
 title="{{ score.title|escape }}
 (creater: {{ score.creater }} {{ score.created|date:"y-m-d H:i:s" }},
 modifier: {{ score.lastmodifier }} {{ score.lastmodified|date:"y-m-d H:i:s" }})
@@ -82,22 +82,22 @@ v:{{ score.version }}
 <!-- id:{{ score.id }} -->
 {% if logined %}
 {% if score.editable %}
-| <a href="/?op=edit&amp;key={{score.key}}">edit</a>
+| <a href="{{req_path}}?op=edit&amp;key={{score.key}}">edit</a>
 {% endif %}
 {% if score.deleteable %}
-| <a href="/?op=delete&amp;key={{score.key}}&amp;{{pageargs}}">delete</a>
+| <a href="{{req_path}}?op=delete&amp;key={{score.key}}&amp;{{pageargs}}">delete</a>
 {% endif %}
 {% if score.undeleteable %}
-| <a href="/?op=undelete&amp;key={{score.key}}&amp;{{pageargs}}">undelete</a>
+| <a href="{{req_path}}?op=undelete&amp;key={{score.key}}&amp;{{pageargs}}">undelete</a>
 {% endif %}
 {% if score.purgeable %}
-| <a href="/?op=purge&amp;key={{score.key}}&amp;{{pageargs}}">purge</a>
+| <a href="{{req_path}}?op=purge&amp;key={{score.key}}&amp;{{pageargs}}">purge</a>
 {% endif %}
 {% endif %}
-| <a href="/?op=rawfile&amp;key={{score.key}}">source</a>
-| <a href="/?op=changes&amp;key={{score.key}}">changes</a>
+| <a href="{{req_path}}?op=rawfile&amp;key={{score.key}}">source</a>
+| <a href="{{req_path}}?op=changes&amp;key={{score.key}}">changes</a>
 {% if logined %}
-| <a href="/?op=check&amp;key={{score.key}}">check</a>
+| <a href="{{req_path}}?op=check&amp;key={{score.key}}">check</a>
 {% endif %}
 </span>
 {% if score.display_summary %}

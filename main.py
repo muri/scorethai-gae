@@ -152,13 +152,15 @@ def common_temp(self, showmenu):
     """Make template values."""
     userinfo = UserInfo.get_userinfo()
     if userinfo.logined():
-        loginout_url = users.create_logout_url(u'/')
+        loginout_url = users.create_logout_url(self.request.path)
         isadmin = users.is_current_user_admin()
     else:
-        loginout_url = users.create_login_url(u'/')
+        loginout_url = users.create_login_url(self.request.path)
         isadmin = False
 
     values = {
+        'req_path' : self.request.path,
+        'offer_mobile_link' : self.offer_mobile_link,
         'uri': self.request.uri,
         'showmenu': showmenu,
         'loginout_url' : loginout_url,
@@ -215,6 +217,17 @@ class MainPage(webapp.RequestHandler):
         dkey = self.request.get('datakey')      # scoredata keyname
         content = self.request.get('content')   # content
         dump = self.request.get('dump')         # debug
+
+        self.req_path = self.request.path
+        #logging.info('path:%r' % self.req_path)
+
+        self.mobile = self.offer_mobile_link = ''
+        if self.req_path.endswith('/m/') or self.req_path.endswith('/m'):
+            self.mobile = True
+            logging.info('for mobile')
+        else:
+            if 'mobile' in self.request.user_agent.lower():
+                self.offer_mobile_link = '/m/'
 
         # replace operation.
         for t in self.OP_SUBS:
@@ -624,10 +637,19 @@ class MainPage(webapp.RequestHandler):
         self.response.out.write(template.render(path, values))
 
     def page_view(self, skey, content):
-        # if has content then view it, else load score.
+        """if has `content` then view it,
+            else load score by `skey`."""
         if not content:
             content = Score.get_score(skey).get_last_content()
-        parser = scorethai.ContentReader(content).parser
+
+        # if cols is not specified and viewer is mobile,
+        # then force cols to 4
+        cols = self.request.get_range('cols', 0, 16, 0)
+        if cols == 0 and self.mobile:
+            cols = 4
+            logging.info('page_view: force cols=%d' % cols)
+
+        parser = scorethai.ContentReader(content, cols_override=cols).parser
         values = self.temp(False)
         values['title'] = parser.get_title_one_line()
         values['body'] = parser.html_body
@@ -710,7 +732,7 @@ class MainPage(webapp.RequestHandler):
 
 class FeedPage(webapp.RequestHandler):
     def get(self):
-        self.response.headers["Content-Type"] = "application/atom+xml"
+        self.response.headers["Content-Type"] = "text/xml; charset=utf-8"
         self.response.out.write(self.get_output())
         #stats = memcache.get_stats()
         #logging.debug('Cache(FeedPage) Hits:%s Misses:%s' \
@@ -730,7 +752,7 @@ class FeedPage(webapp.RequestHandler):
         base_url = u'http://' + self.request.host + u'/'
         info = self.request.get('info')
 
-        feed = feedgenerator.Atom1Feed(
+        feed = feedgenerator.Rss201rev2Feed(
             title=u"Scorethai",
             link=base_url,
             description=u"Thai-isan music score database.",
@@ -846,6 +868,7 @@ def main():
         (r'/_o', OperatorPage),
         (r'/feed', FeedPage),
         (r'/', MainPage),
+        (r'/m/?', MainPage),
     ], debug=True)
     wsgiref.handlers.CGIHandler().run(application)
 

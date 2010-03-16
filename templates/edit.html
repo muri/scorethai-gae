@@ -2,7 +2,7 @@
 {% block title %}edit: {{ key }}{% endblock %}
 {% block content %}
 <div class="content">
-<form id="editform" action="/" method="post">
+<form id="editform" action="{{req_path}}" method="post">
 <div>
  <textarea name="content" rows="20" cols="80" tabindex="1">{{ content }}</textarea>
  <input type="hidden" name="key" value="{{ key }}" />
@@ -25,6 +25,6 @@
  {% endif %}
 </div>
 </form>
-<div><p><a href="/">Stop editting and back to main.</a></p></div>
+<div><p><a href="{{req_path}}">Stop editting and back to main.</a></p></div>
 </div>{# content #}
 {% endblock %}{# content #}
