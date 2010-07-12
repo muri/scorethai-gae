@@ -63,11 +63,12 @@ td span.sub
 vertical-align: sub;
 font-size: xx-small;
 }
-/* flags: single-note, emphasis, underline */
+/* flags: single-note, emphasis, dim, underline */
 span.s { font-size: small; }
 span.S { font-size: medium; }
 span.e { font-weight: bold; }
 span.E { font-weight: normal; }
+span.d { color: gray; }
 span.u { text-decoration: underline; }
 span.U { text-decoration: none; }
 .error { color: red; }

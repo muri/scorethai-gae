@@ -14,3 +14,6 @@ handlers:
   script: $PYTHON_LIB/google/appengine/ext/admin
   login: admin
   secure: always
+
+derived_file_type:
+- python_precompiled
