@@ -4,12 +4,13 @@
 <div class="content">
 <form id="editform" action="{{req_path}}" method="post">
 <div>
- <textarea name="content" rows="20" cols="80" tabindex="1">{{ content }}</textarea>
- <input type="hidden" name="key" value="{{ key }}" />
+ <textarea id="content" name="content" tabindex="1" style="height: 15em; width:90%;">{{ content }}</textarea>
+ <input type="hidden" id="key" name="key" value="{{ key }}" />
  {% if dump %}<input type="hidden" name="dump" value="{{ dump }}" />{% endif %}
 </div>
-<div>
- <input type="submit" name="preview" value="preview" tabindex="2"
+<div id="pv" style="margin: 1ex;"></div>
+<div style="margin-top: 1ex;">
+ <input type="submit" name="preview" value="preview on new window" tabindex="2"
     onclick="document.forms['editform'].target='preview';" />
  {% if logined %}
  | <input type="submit" name="save" value="save" tabindex="3"
@@ -27,4 +28,67 @@
 </form>
 <div><p><a href="{{req_path}}">Stop editting and back to main.</a></p></div>
 </div>{# content #}
+
+<style type="text/css">
+img.smallBtn { margin-left: 2px; margin-right: 2px; cursor: pointer;}
+#pvData { max-height: 15em; overflow: auto; }
+</style>
+<script type="text/javascript">
+
+$('#pv')
+    .append('<span>View:</span>')
+    .append('<img id="hider" class="smallBtn" src="s/open.gif" alt="[open]" />')
+    .append('<img id="pvUpdate" class="smallBtn" src="s/loading.gif" alt="[loading]" style="display: none;"></span>')
+    .append('<div id="pvData" style="display: none;"></div>');
+
+function showUpdate(flag) {
+    $('#pvUpdate').attr('src', flag ? "s/loading.gif" : "s/update.gif");
+    $('#pvUpdate').attr('alt', flag ? "[loading]" : "[update]");
+}
+showUpdate(false);
+function showOpen(flag) {
+    $('#hider').attr('src', flag ? "s/close.gif" : "s/open.gif");
+    $('#hider').attr('alt', flag ? "[close]" : "[open]");
+}
+showOpen(false);
+
+var showing = false;
+
+$('#hider').click(function(ev){
+    if (showing) {
+        $('#pvData').slideUp();
+        $('#pvUpdate').css('display', 'none');
+    } else {
+        $('#pvUpdate').css('display', 'inline');
+        updatePreview();
+        $('#pvData').slideDown();
+    }
+    showing = !showing
+    showOpen(showing);
+})
+
+function updatePreview() {
+    showUpdate(true);
+    $.post(
+        "{{req_path}}",
+        {
+            "op": "view",
+            "key": $('#editform #key').val(),
+            "content": $('#editform #content').val()
+        },
+        function(data, status) {
+            if (status != "success") {
+                data = '<div class="error">status: ' + status + '</div>' + data;
+            }
+            $('#pvData').html($(data).find('div.score')[0]);
+            showUpdate(false);
+        },
+        "html"
+    );
+}
+
+$('#pvUpdate').click(updatePreview);
+
+</script>
+
 {% endblock %}{# content #}

@@ -7,6 +7,9 @@ handlers:
 - url: /stylesheets
   static_dir: stylesheets
 
+- url: /s
+  static_dir: s
+
 - url: /(m/?)?(feed|_o)?
   script: main.py
 
