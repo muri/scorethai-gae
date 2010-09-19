@@ -13,10 +13,14 @@ handlers:
 - url: /(m/?)?(feed|_o)?
   script: main.py
 
+- url: /favicon.ico
+  static_files: s/favicon.ico
+  upload: s/favicon.ico
+
 - url: /admin/.*
   script: $PYTHON_LIB/google/appengine/ext/admin
   login: admin
   secure: always
 
-derived_file_type:
-- python_precompiled
+#derived_file_type:
+#- python_precompiled

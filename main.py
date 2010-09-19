@@ -13,9 +13,17 @@ from google.appengine.api import memcache
 
 logging.getLogger().setLevel(logging.DEBUG)
 
-SCRIPT_DIR = os.path.join(os.path.dirname(__file__), 'templates')
-sys.path.insert(0, os.path.abspath(SCRIPT_DIR))
-import scorethai
+APP_DIR = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(APP_DIR, 'markdown.zip'))
+sys.path.insert(0, APP_DIR)
+TMPL_DIR = os.path.join(APP_DIR, 'templates')
+
+# logging.info("sys.path=%r" % sys.path)
+
+#import scorethai # causes import error (unknown reason).
+import aaa
+scorethai = aaa
+
 
 class ErrorScoreNotFound(Exception):
     pass
@@ -192,7 +200,7 @@ def common_page_error(self, msgs):
                 for i in self.request.arguments()
         ])
     )
-    path = os.path.join(SCRIPT_DIR, 'error.html')
+    path = os.path.join(TMPL_DIR, 'error.html')
     self.response.set_status(500)
     self.response.out.write(template.render(path, values))
 
@@ -633,7 +641,7 @@ class MainPage(webapp.RequestHandler):
         values['cat'] = cat
         values['limit'] = limit
         values['order'] = order
-        path = os.path.join(SCRIPT_DIR, 'main.html')
+        path = os.path.join(TMPL_DIR, 'main.html')
         self.response.out.write(template.render(path, values))
 
     def page_view(self, skey, content):
@@ -653,7 +661,7 @@ class MainPage(webapp.RequestHandler):
         values = self.temp(False)
         values['title'] = parser.get_title_one_line()
         values['body'] = parser.html_body
-        path = os.path.join(SCRIPT_DIR, 'view.html')
+        path = os.path.join(TMPL_DIR, 'view.html')
         self.response.out.write(template.render(path, values))
 
     def page_edit(self, userinfo, score, content, msgs):
@@ -666,7 +674,7 @@ class MainPage(webapp.RequestHandler):
         values['key'] = skey
         values['msgs'] = [cgi.escape(i) for i in msgs]
         values['content'] = cgi.escape(content)
-        path = os.path.join(SCRIPT_DIR, 'edit.html')
+        path = os.path.join(TMPL_DIR, 'edit.html')
         self.response.out.write(template.render(path, values))
 
     def page_changes(self, userinfo, msgs, skey):
@@ -689,7 +697,7 @@ class MainPage(webapp.RequestHandler):
         values['msgs'] = [cgi.escape(i) for i in msgs]
         perm = score.get_permission_for(userinfo)
         values['editable'] = perm['editable']
-        path = os.path.join(SCRIPT_DIR, 'changes.html')
+        path = os.path.join(TMPL_DIR, 'changes.html')
         self.response.out.write(template.render(path, values))
 
     # raw file operaitons.
@@ -727,7 +735,7 @@ class MainPage(webapp.RequestHandler):
         values = self.temp(False)
         values['keys'] = [i.key().name() for i in entities]
         values['last'] = new_last_key_str
-        path = os.path.join(SCRIPT_DIR, 'rawfiles.html')
+        path = os.path.join(TMPL_DIR, 'rawfiles.html')
         self.response.out.write(template.render(path, values))
 
 class FeedPage(webapp.RequestHandler):
@@ -854,7 +862,7 @@ class OperatorPage(webapp.RequestHandler):
 
         values['datas'] = datas
         values['msgs'] = msgs
-        path = os.path.join(SCRIPT_DIR, 'operator.html')
+        path = os.path.join(TMPL_DIR, 'operator.html')
         self.response.out.write(template.render(path, values))
 
     def check_admin(self):

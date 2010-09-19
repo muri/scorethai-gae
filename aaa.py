@@ -5,6 +5,8 @@ import sys, re
 import cgi
 import codecs
 
+import markdown
+
 SUMMARY_LETTERS = u'ดรมฟซลท'
 
 # Default content of newly creating score.
@@ -528,7 +530,6 @@ class Parser():
             elif i.label == u'desc':
                 if i.text:
                     # r += u'text:<div>%s</div>' % repr(i.text) #dbg
-                    import markdown
                     h = markdown.markdown(
                         i.text,
                         output_format='xhtml1',
