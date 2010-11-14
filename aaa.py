@@ -9,6 +9,21 @@ import markdown
 
 SUMMARY_LETTERS = u'ดรมฟซลท'
 
+def regularize_summary_letters(s):
+    """Make regularized string of DoReMi letters only."""
+    if not s:
+        return None
+    r = u''
+    last = None
+    for c in s:
+        # type 'ช' is easier than 'ซ' for mobile
+        if c == u'ช':
+            c = u'ซ'
+        if c != last and c in SUMMARY_LETTERS:
+            r += c
+            last = c
+    return r
+
 # Default content of newly creating score.
 CONTENT_NEW = u"""\
 :title:

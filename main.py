@@ -516,14 +516,9 @@ class MainPage(webapp.RequestHandler):
             msgs.append(u'search by title: %s' % title)
         summary = self.request.get('summary')
         if summary:
-            s = u''
-            last = None
-            for c in summary:
-                if c != last and c in scorethai.SUMMARY_LETTERS:
-                    s += c
-                    last = c
-            summary = s
+            summary = scorethai.regularize_summary_letters(summary)
             msgs.append(u'search by summary: %s' % summary)
+
         cat = self.request.get('cat', u'').lower() # category
         if cat:
             msgs.append(u'in category: %s' % cat)
