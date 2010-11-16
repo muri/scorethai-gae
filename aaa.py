@@ -297,9 +297,14 @@ class CellList(list):
                     td.append('colspan="%d"' % col.colspan)
                 if col.style_cls:
                     td.append('class="%s"' % cgi.escape(col.style_cls))
+                # if td has source text (length > 0),
+                # then add info-id of line, col, and length.
+                if col.src_len:
+                    td.append('id="l%dc%dw%d"' \
+                        %(col.src_line, col.src_col, col.src_len))
                 tds.append(
-                    u'%s>%s</td>' % \
-                    (' '.join(td), self.html_cell(col.text_blocks))
+                    u'%s>%s</td>' \
+                    %(' '.join(td), self.html_cell(col.text_blocks))
                 )
             trs.append(' <tr>%s</tr>' % ''.join(tds))
         return u'<table class="%s">\n%s\n</table>\n' \

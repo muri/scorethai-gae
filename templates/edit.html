@@ -36,6 +36,9 @@ img.smallBtn { margin-left: 2px; margin-right: 2px; cursor: pointer;}
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 
+var ta = $('#content')[0]; // textarea
+ta.draggable = true;
+
 $('#pv')
     .append('<span>View:</span>')
     .append('<img id="hider" class="smallBtn" src="s/open.gif" alt="[open]" />')
@@ -68,6 +71,39 @@ $('#hider').click(function(ev){
     showOpen(showing);
 })
 
+function selectByLineColWidth(l, c, w) {
+    ta.focus();
+    //console.log("lcw="+l+","+c+","+w);
+    var text = ta.value;
+    var offset = 0;
+    if (l > 0) {
+        var r = RegExp("([^\\n]*\\n){"+l+"}");
+        var m = r.exec(text);
+        if (m) {
+            offset = m[0].length;
+            //console.log("match:"+offset+',"'+m[0]+'"');
+        }
+    }
+    offset += c;
+    var end = offset + w;
+
+
+    /* this not works.
+    // set start and end same (to start)
+    ta.setSelectionRange(offset, offset);
+    var ev = $.Event('keypress');
+    ev.which = 65;
+    ev.keyCode = 0;
+    $('#content').trigger(ev);
+    */
+
+
+    ta.setSelectionRange(offset, end);
+    //console.log("offset,end="+offset+","+end);
+}
+
+var reIDofTD = /^l(\d+)c(\d+)w(\d+)$/;
+
 function updatePreview() {
     showUpdate(true);
     $.post(
@@ -75,7 +111,7 @@ function updatePreview() {
         {
             "op": "view",
             "key": $('#editform #key').val(),
-            "content": $('#editform #content').val()
+            "content": ta.value //$('#editform #content').val()
         },
         function(data, status) {
             if (status != "success") {
@@ -83,6 +119,22 @@ function updatePreview() {
             }
             $('#pvData').html($(data).find('div.score')[0]);
             showUpdate(false);
+
+            $('#pvData td').click(function(ev) {
+                var id = $(this).attr('id');
+                var match = reIDofTD.exec(id);
+                if (match) {
+                    //console.log('match:'+match);
+                    try {
+                        var l = Number(match[1]) + 1; //why+1??
+                        var c = Number(match[2]);
+                        var w = Number(match[3]);
+                        selectByLineColWidth(l, c, w);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }
+            });
         },
         "html"
     );
