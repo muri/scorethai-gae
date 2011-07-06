@@ -2,7 +2,7 @@
 {% block title %}main{% endblock %}
 
 {% block feed %}
-<ul class="menu">
+<ul class="menu feedbox">
  <li class="menuheader">Feed</li>
  <li><a href='{{req_path}}/feed'>rss</a></li>
  <!-- <li><a href='{{req_path}}/feed?info=all'>feed detail</a></li> -->
@@ -10,14 +10,14 @@
 {% endblock %}
 
 {% block addscorebox %}
-<ul class="menu">
+<ul class="menu addscorebox">
  <li class="menuheader">Score</li>
  <li><a href="{{req_path}}?op=edit&amp;key=new">Add score</a></li>
 </ul>
 {% endblock %}
 
 {% block searchbox %}
-<div class="menubar">
+<div class="menubar searchbox">
 <form id="form" action="{{req_path}}" method="get">
 <ul class="searchbox menu">
 <li class="menuheader">Search</li>

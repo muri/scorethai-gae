@@ -20,7 +20,7 @@
 <body>
 <div class="wrapper">
 
-{% if showmenu %}
+{% if header %}
 {# HEADER #}
 <div class="header">
 {% if offer_mobile_link %}
@@ -32,8 +32,8 @@
 </div>{# description #}
 </div>{# header #}
 
-{# MENUBAR #}
-<div class="menubar">
+{# MENUBAR USERINFO #}
+<div class="menubar userinfo">
 <ul class="menu">
  <li class="menuheader">User</li>
  {% if logined %}
@@ -47,23 +47,29 @@
 </ul>
 {% block addscorebox %}{% endblock %}
 {% block feed %}{% endblock %}
-</div> {# menubar #}
+</div> {# MENUBAR USERINFO #}
+
+{% endif %} {# if header #}
+
+{# searchbox #}{# header有りの時はheaderの中 #}
+{% if searchbox %}
 {% block searchbox %}{% endblock %}
+{% endif %}
+
+{% if header %}
+</div> {# header #}
+{% endif %} {# if header #}
 
 <div class="main">{# wrapper of sidebar and content #}
-
-{% endif %} {# if showmenu #}
 
 {# CONTENT #}
 {% if msgs %}<div><p>{{ msgs|join:"<br />" }}</p></div>{% endif %}
 {% block content %}{% endblock %}
 
-{% if showmenu %}
-</div>{# main #}
-{% endif %} {# if showmenu #}
+</div>
 
 {# FOOTER #}
-{% if showmenu %}
+{% if header %}
 <div class="footer">
 <!-- <div class="icon bottommark"><a
 href="http://validator.w3.org/check?uri={{ uri|escape }}"><img
@@ -79,7 +85,7 @@ Based on a work at
 <a href="http://muri.tri6.net/thai/scorethai/">muri.tri6.net</a>.
 | <a href="mailto:murimuri@gmail.com">contact</a>.
 </div>{# footer #}
-{% endif %}{# if showmenu #}
+{% endif %}{# if header #}
 
 </div>{# wrapper #}
 </body>

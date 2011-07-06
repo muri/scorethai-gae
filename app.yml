@@ -10,7 +10,7 @@ handlers:
 - url: /s
   static_dir: s
 
-- url: /(m/?)?(feed|_o)?
+- url: /(m/?)?(feed|_o)?(tab/?)?
   script: main.py
 
 - url: /favicon.ico

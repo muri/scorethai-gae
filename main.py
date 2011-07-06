@@ -156,7 +156,7 @@ class Log(db.Model):
                   link=link, categories=categories)
         log.put()
 
-def common_temp(self, showmenu):
+def common_temp(self):
     """Make template values."""
     userinfo = UserInfo.get_userinfo()
     if userinfo.logined():
@@ -170,7 +170,8 @@ def common_temp(self, showmenu):
         'req_path' : self.request.path,
         'offer_mobile_link' : self.offer_mobile_link,
         'uri': self.request.uri,
-        'showmenu': showmenu,
+        'header': self.header,
+        'searchbox' : self.searchbox,
         'loginout_url' : loginout_url,
         'user' : userinfo.user,
         'logined' : userinfo.logined(),
@@ -185,7 +186,7 @@ def common_page_error(self, msgs):
     """Common error page."""
     if isinstance(msgs, basestring):
         msgs = [msgs]
-    values = self.temp(True)
+    values = self.temp()
     values['msgs'] = msgs
     values['uri'] = self.request.uri
     values['headers'] = cgi.escape(
@@ -236,6 +237,13 @@ class MainPage(webapp.RequestHandler):
         else:
             if 'mobile' in self.request.user_agent.lower():
                 self.offer_mobile_link = '/m/'
+
+        self.acc = self.request.get('acc')      # accesser
+        if self.req_path.endswith('/tab/') or self.req_path.endswith('/tab'):
+            self.acc = 'tab'    # facebook tab
+
+        self.header = (self.acc != 'tab')       # from facebook tab?
+        self.searchbox= True    # show search box by default
 
         # replace operation.
         for t in self.OP_SUBS:
@@ -608,7 +616,7 @@ class MainPage(webapp.RequestHandler):
         ])
 
         # use template
-        values = self.temp(True)
+        values = self.temp()
         values['scores'] = dics
         values['msgs'] = [cgi.escape(i) for i in msgs]
         values['pageargs'] = pageargs + '&amp;page=%d' % page
@@ -653,14 +661,17 @@ class MainPage(webapp.RequestHandler):
             logging.info('page_view: force cols=%d' % cols)
 
         parser = scorethai.ContentReader(content, cols_override=cols).parser
-        values = self.temp(False)
+        self.header = False
+        values = self.temp()
         values['title'] = parser.get_title_one_line()
         values['body'] = parser.html_body
         path = os.path.join(TMPL_DIR, 'view.html')
         self.response.out.write(template.render(path, values))
 
     def page_edit(self, userinfo, score, content, msgs):
-        values = self.temp(True)
+        self.searchbox = False
+        self.header = False
+        values = self.temp()
         if score:
             skey = score.key().name()
             values.update(score.get_permission_for(userinfo))
@@ -686,7 +697,7 @@ class MainPage(webapp.RequestHandler):
                 'content' : data.content,
             })
 
-        values = self.temp(True)
+        values = self.temp()
         values['datas'] = dics
         values['key'] = skey
         values['msgs'] = [cgi.escape(i) for i in msgs]
@@ -727,7 +738,8 @@ class MainPage(webapp.RequestHandler):
 
         # Return the data and new_last_key_str.  Client would use
         # http://...?last=new_last_key_str to fetch the next batch.
-        values = self.temp(False)
+        self.header = False
+        values = self.temp()
         values['keys'] = [i.key().name() for i in entities]
         values['last'] = new_last_key_str
         path = os.path.join(TMPL_DIR, 'rawfiles.html')
@@ -835,12 +847,14 @@ class OperatorPage(webapp.RequestHandler):
                     count += 1
             msgs.append('Purged %d data.' % count)
 
+        self.header = False
+        self.searchbox = False
         self.page_main(msgs=msgs)
 
     get = post
 
     def page_main(self, msgs=[]):
-        values = self.temp(True)
+        values = self.temp()
         query = UserInfo.all().order('-lastlogin')
         values['userinfos'] = query.fetch(100)
 
@@ -872,6 +886,7 @@ def main():
         (r'/feed', FeedPage),
         (r'/', MainPage),
         (r'/m/?', MainPage),
+        (r'/tab/?', MainPage),
     ], debug=True)
     wsgiref.handlers.CGIHandler().run(application)
 
