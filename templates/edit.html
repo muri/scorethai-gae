@@ -33,11 +33,12 @@
 img.smallBtn { margin-left: 2px; margin-right: 2px; cursor: pointer;}
 #pvData { max-height: 15em; overflow: auto; }
 </style>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
 
 var ta = $('#content')[0]; // textarea
-ta.draggable = true;
+
+//ta.draggable = true;  // if do this, can't input text?
 
 $('#pv')
     .append('<span>View:</span>')

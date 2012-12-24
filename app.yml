@@ -1,6 +1,6 @@
 application: scorethai
-version: 2
-runtime: python
+version: 1
+runtime: python25
 api_version: 1
 
 builtins:

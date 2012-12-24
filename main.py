@@ -881,14 +881,14 @@ class OperatorPage(webapp.RequestHandler):
         return False
 
 def main():
-    application = webapp.WSGIApplication([
+    app = webapp.WSGIApplication([
         (r'/_o', OperatorPage),
         (r'/feed', FeedPage),
         (r'/', MainPage),
         (r'/m/?', MainPage),
         (r'/tab/?', MainPage),
     ], debug=True)
-    wsgiref.handlers.CGIHandler().run(application)
+    wsgiref.handlers.CGIHandler().run(app)
 
 if __name__ == "__main__":
   main()
