@@ -55,7 +55,7 @@
 
 {% block content %}
 <div class="content">
-<div class="pagenavi">{{ pagenavi }}</div>
+<div class="pagenavi">{{ pagenavi|safe }}</div>
 
 <ul class="scorelist">
 {% spaceless %}
@@ -68,7 +68,7 @@ title="{{ score.title|escape }}
 modifier: {{ score.lastmodifier }} {{ score.lastmodified|date:"y-m-d H:i:s" }})
 ">
 {% if score.display_title %}
- {{ score.display_title }}
+ {{ score.display_title|safe }}
 {% else %}
  {{ score.title|escape }}
 {% endif %}
@@ -101,13 +101,13 @@ v:{{ score.version }}
 {% endif %}
 </span>
 {% if score.display_summary %}
-<br />{{ score.display_summary }}
+<br />{{ score.display_summary|safe }}
 {% endif %}
 </li>
 {% endfor %}
 {% endspaceless %}
 </ul>
 
-{% if scores %}<div class="pagenavi">{{ pagenavi }}</div>{% endif %}
+{% if scores %}<div class="pagenavi">{{ pagenavi|safe }}</div>{% endif %}
 </div>{# content #}
 {% endblock %} {# content #}

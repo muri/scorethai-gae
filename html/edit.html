@@ -4,7 +4,7 @@
 <div class="content">
 <form id="editform" action="{{req_path}}" method="post">
 <div>
- <textarea id="content" name="content" tabindex="1" style="height: 15em; width:90%;">{{ content }}</textarea>
+ <textarea id="content" name="content" tabindex="1" style="height: 15em; width:90%;">{{ content|safe }}</textarea>
  <input type="hidden" id="key" name="key" value="{{ key }}" />
  {% if dump %}<input type="hidden" name="dump" value="{{ dump }}" />{% endif %}
 </div>

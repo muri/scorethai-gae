@@ -4,26 +4,28 @@
 import sys, os, re, cgi, logging
 from StringIO import StringIO
 from datetime import datetime
-import wsgiref.handlers
+
 from google.appengine.api import users
-from google.appengine.ext import webapp, db
+import webapp2
+from google.appengine.ext import db
+from google.appengine.api import memcache
+
 from google.appengine.ext.webapp import template
 from django.utils import feedgenerator
-from google.appengine.api import memcache
 
 logging.getLogger().setLevel(logging.DEBUG)
 
 APP_DIR = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0, os.path.join(APP_DIR, 'markdown.zip'))
-sys.path.insert(0, APP_DIR)
-TMPL_DIR = os.path.join(APP_DIR, 'templates')
+sys.path = [
+    os.path.join(APP_DIR, 'lib'),
+    os.path.join(APP_DIR, 'lib/markdown.zip')
+] + sys.path
 
-# logging.info("sys.path=%r" % sys.path)
+TMPL_DIR = os.path.join(APP_DIR, 'html')
 
-#import scorethai # causes import error (unknown reason).
-import aaa
-scorethai = aaa
+logging.info("sys.path=%r" % sys.path)
 
+import scorethai
 
 class ErrorScoreNotFound(Exception):
     pass
@@ -205,7 +207,7 @@ def common_page_error(self, msgs):
     self.response.set_status(500)
     self.response.out.write(template.render(path, values))
 
-class MainPage(webapp.RequestHandler):
+class MainPage(webapp2.RequestHandler):
     """Main page handler."""
     temp = common_temp
     page_error = common_page_error
@@ -745,7 +747,7 @@ class MainPage(webapp.RequestHandler):
         path = os.path.join(TMPL_DIR, 'rawfiles.html')
         self.response.out.write(template.render(path, values))
 
-class FeedPage(webapp.RequestHandler):
+class FeedPage(webapp2.RequestHandler):
     def get(self):
         self.response.headers["Content-Type"] = "text/xml; charset=utf-8"
         self.response.out.write(self.get_output())
@@ -791,9 +793,10 @@ class FeedPage(webapp.RequestHandler):
 
         return feed.writeString('utf-8')
 
-class OperatorPage(webapp.RequestHandler):
+class OperatorPage(webapp2.RequestHandler):
     page_error = common_page_error
     temp = common_temp
+    mobile = offer_mobile_link = ''
 
     def post(self):
         userinfo = UserInfo.get_userinfo()
@@ -880,6 +883,15 @@ class OperatorPage(webapp.RequestHandler):
         self.page_error(u'Not the admin.')
         return False
 
+app = webapp2.WSGIApplication([
+    (r'/_o', OperatorPage),
+    (r'/feed', FeedPage),
+    (r'/', MainPage),
+    (r'/m/?', MainPage),
+    (r'/tab/?', MainPage),
+], debug=True)
+
+""" old code:
 def main():
     app = webapp.WSGIApplication([
         (r'/_o', OperatorPage),
@@ -892,3 +904,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+"""

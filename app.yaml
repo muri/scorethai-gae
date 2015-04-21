@@ -1,29 +1,35 @@
-application: scorethai
+application: scorethai-hrd
 version: 1
-runtime: python25
+runtime: python27
 api_version: 1
+threadsafe: true
+
+libraries:
+- name: django
+  version: 1.2
 
 builtins:
 - remote_api: on
 
 handlers:
-- url: /stylesheets
-  static_dir: stylesheets
+- url: /css
+  static_dir: css
 
 - url: /s
   static_dir: s
 
 - url: /(m/?)?(feed|_o)?(tab/?)?
-  script: main.py
+  script: main.app
 
 - url: /favicon.ico
   static_files: s/favicon.ico
   upload: s/favicon.ico
 
-- url: /admin/.*
-  script: $PYTHON_LIB/google/appengine/ext/admin
-  login: admin
-  secure: always
+##can't use for threadsafe.
+#- url: /admin/.*
+#  script: $PYTHON_LIB/google/appengine/ext/admin
+#  login: admin
+#  secure: always
 
 #derived_file_type:
 #- python_precompiled

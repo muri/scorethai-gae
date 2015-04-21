@@ -232,7 +232,7 @@ class CellList(list):
             return lst
 
         # text without class
-        return [src]
+        return [cgi.escape(src)]
 
     def _separate_flags(self, lst):
         """Separate current flags for each cells.
@@ -551,9 +551,8 @@ class Parser():
                 if i.text:
                     # r += u'text:<div>%s</div>' % repr(i.text) #dbg
                     h = markdown.markdown(
-                        i.text,
-                        output_format='xhtml1',
-                        )#safe_mode="escape")
+                        cgi.escape(i.text),
+                        output_format='xhtml1')#safe_mode="escape")
                     r += u'<div class="%s">%s</div>' %(i.label, h)
             else:
                 self.messages.append(
@@ -571,7 +570,7 @@ class Parser():
         self.parse(dump=True)
         html = u"""\
 <html>
-<link type="text/css" rel="stylesheet" href="stylesheets/scorethai.css" />
+<link type="text/css" rel="stylesheet" href="css/scorethai.css" />
 <title>""" + self.get_title_one_line() + """</title>
 <body>
 """ + self.html_body + """
@@ -637,7 +636,7 @@ class ContentReader():
 $body
 </body>
 ''')
-        cssdir = path.join(path.dirname(sys.argv[0]), 'stylesheets')
+        cssdir = path.join(path.dirname(sys.argv[0]), 'css')
         return temp.substitute(
             cssdir=urllib.pathname2url(cssdir),
             title=self.parser.get_title_one_line(),
@@ -653,6 +652,7 @@ def make_html_file(filename, content):
             '\n '.join(
                 [i for i in ['Messages:'] + msgs]))
 
+# for use as standalone script.
 if __name__=="__main__":
     sys.stdin = codecs.getreader('utf_8_sig')(sys.stdin)
     sys.stdout = codecs.getwriter('utf_8')(sys.stdout)
